@@ -8,6 +8,8 @@ using Owin;
 
 namespace Organizer.WebAPI
 {
+    using System.Web.Http;
+
     public partial class Startup
     {
         public void Configuration(IAppBuilder app)
