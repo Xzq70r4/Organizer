@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Oraganizer</title>
+    <link href="../Content/bootstrap.css" rel="stylesheet" />
+    <link href="../Content/font-awesome.css" rel="stylesheet" />
+    <link href="../Content/ui-bootstrap-csp.css" rel="stylesheet" />
+    <link href="../Content/app.css" rel="stylesheet" />
+</head>
+<body ng-app="organizerApp" ng-controller="MainCtrl" ng-cloak="">
+
+<div navigation-bar ng-if="isLoggedIn"></div>
+<div id="main-container" ng-view></div>
+
+
+<script src="../Scripts/jquery-2.1.4.js"></script>
+<script src="../Scripts/bootstrap.js"></script>
+<script src="../Scripts/angular.js"></script>
+<script src="../Scripts/angular-route.js"></script>
+<script src="../Scripts/angular-resource.js"></script>
+
+<script src="app.js"></script>
+
+<script src="services/organizerData.js"></script>
+<script src="services/auth.js"></script>
+
+<script src="directives/navigationBarDirective.js"></script>
+
+<script src="controllers/MainCtrl.js"></script>
+<script src="controllers/LoginCtrl.js"></script>
+<script src="controllers/LogoutCtrl.js"></script>
+</body>
+</html>

@@ -17,8 +17,8 @@
     {
         private IOrganizerData data;
 
-        public OrganizerTasksController() 
-            :this(new OrganizerData())
+        public OrganizerTasksController()
+            : this(new OrganizerData())
         {
         }
 
@@ -36,8 +36,8 @@
             {
                 var tasks = data.OrganizerTasks
                                 .All()
-                                .Where(t => t.UserId == currentUserId &&
-                                            t.ReleaseTime > DateTime.Now)
+                                //.Where(t => t.UserId == currentUserId &&
+                                //            t.ReleaseTime > DateTime.Now)
                                 .Project()
                                 .To<OrganizerTaskBindingModel>()
                                 .ToList();
@@ -57,8 +57,9 @@
 
             try
             {
-                var task =this.data.OrganizerTasks
-                                   .All().Where(t => t.UserId == currentUserId &&
+                var task = this.data.OrganizerTasks
+                                   .All()
+                                   .Where(t => t.UserId == currentUserId &&
                                                 t.Id == id &&
                                                 t.ReleaseTime > DateTime.Now)
                                    .FirstOrDefault();

@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Security.Claims;
     using System.Threading.Tasks;
+    using System.Web.Http.Cors;
 
     using Microsoft.AspNet.Identity.Owin;
     using Microsoft.Owin.Security;
@@ -15,6 +16,7 @@
     /// <summary>
     /// The application o auth provider.
     /// </summary>
+    [EnableCors("http://localhost:9312", "*", "*")]
     public class ApplicationOAuthProvider : OAuthAuthorizationServerProvider
     {
         /// <summary>
@@ -54,6 +56,9 @@
             var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
 
             User user = await userManager.FindAsync(context.UserName, context.Password);
+
+            context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin",
+               new[] { "http://localhost:9312" });
 
             if (user == null)
             {

@@ -15,7 +15,7 @@
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<OrganizerDbContext, Configuration>());
         }
 
-        public IDbSet<OrganizerTask> Tasks { get; set; } 
+        public virtual IDbSet<OrganizerTask> OraganizerTasks { get; set; } 
 
         public static OrganizerDbContext Create()
         {

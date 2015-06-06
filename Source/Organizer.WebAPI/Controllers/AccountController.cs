@@ -19,6 +19,8 @@ using Organizer.WebAPI.Results;
 
 namespace Organizer.WebAPI.Controllers
 {
+    using System.Web.Http.Cors;
+
     using Organizer.Models;
     using Organizer.WebAPI.Models.Users;
 
@@ -331,7 +333,7 @@ namespace Organizer.WebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = new User() { UserName = model.Email, Email = model.Email };
+            var user = new User() { UserName = model.Username };
 
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
 

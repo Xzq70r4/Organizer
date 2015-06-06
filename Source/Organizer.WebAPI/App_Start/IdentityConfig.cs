@@ -10,34 +10,13 @@
 
     // Configure the application user manager used in this application. UserManager is defined in ASP.NET Identity and is used by the application.
 
-    /// <summary>
-    /// The application user manager.
-    /// </summary>
     public class ApplicationUserManager : UserManager<User>
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ApplicationUserManager"/> class.
-        /// </summary>
-        /// <param name="store">
-        /// The store.
-        /// </param>
         public ApplicationUserManager(IUserStore<User> store)
             : base(store)
         {
         }
 
-        /// <summary>
-        /// The create.
-        /// </summary>
-        /// <param name="options">
-        /// The options.
-        /// </param>
-        /// <param name="context">
-        /// The context.
-        /// </param>
-        /// <returns>
-        /// The <see cref="ApplicationUserManager"/>.
-        /// </returns>
         public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
         {
             var manager = new ApplicationUserManager(new UserStore<User>(context.Get<OrganizerDbContext>()));
@@ -46,7 +25,7 @@
             manager.UserValidator = new UserValidator<User>(manager)
                                         {
                                             AllowOnlyAlphanumericUserNames = false, 
-                                            RequireUniqueEmail = true
+                                            RequireUniqueEmail = false
                                         };
 
             // Configure validation logic for passwords
