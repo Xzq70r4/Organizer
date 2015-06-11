@@ -3,13 +3,6 @@
 app.controller('OrganizerTasksCtrl',
     function OrganizerTasksCtrl($scope, organizerData, auth, $filter, $modal) {
 
-    $scope.showCreateTaskForm = function () {
-        $modal.open({
-            templateUrl: 'views/add-task.html',
-            controller: 'CreateOrganizerTasksCtrl'
-        });
-    };
-
     $scope.showEditTaskForm = function (taskId) {
         $modal.open({
             templateUrl: 'views/edit-task.html',
@@ -56,5 +49,42 @@ app.controller('OrganizerTasksCtrl',
         .getOrganizerTasks(auth.access_token())
         .then(function (data) {
         $scope.organizerTasks = data;
-         });
+        });
+
+    $scope.sortBy = 'releaseTime';
+    $scope.sortTypeText = 'Descending';
+    $scope.sortByReverse = true;
+
+    $scope.sortTypeClicked = function () {
+        if ($scope.sortTypeText === 'Ascending') {
+            $scope.sortTypeText = 'Descending';
+        }
+        else {
+            $scope.sortTypeText = 'Ascending';
+        }
+        $scope.sortByReverse = !$scope.sortByReverse;
+    };
+
+    var pagesShown = 1;
+
+    var pageSize = 3;
+
+    $scope.paginationLimit = function (data) {
+        return pageSize * pagesShown;
+    };
+
+    $scope.hasMoreItemsToShow = function () {
+        return pagesShown < (jQuery($scope.organizerTasks).size() / pageSize);
+    };
+
+    $scope.showMoreItems = function () {
+        pagesShown = pagesShown + 1;
+    };
+
+    $scope.showCreateTaskForm = function () {
+        $modal.open({
+            templateUrl: 'views/add-task.html',
+            controller: 'CreateOrganizerTasksCtrl'
+        });
+    };
 });

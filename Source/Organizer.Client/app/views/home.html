@@ -1,13 +1,27 @@
 ﻿<div class="container" ng-controller="OrganizerTasksCtrl">
     <div>
-        <input type="button" class="btn btn-primary" value="Add New Task"
-               ng-click="showCreateTaskForm()" />
-        <br />
+        <button type="button" class="btn btn-primary"
+                ng-click="showCreateTaskForm()"><i class="fa fa-plus-circle"></i> Add Task</button>
+        <br/>
+    </div>
+    <div class="col-md-3 pull-right">
+        <div class="row">
+            <p class="col-md-6 lead">Sort by </p>
+            <button class="btn col-md-6 btn-primary" ng-click="sortTypeClicked()">{{sortTypeText}}</button>
+        </div>
+        <div class="row">
+            <select class="form-control col-md-12" ng-model="sortBy">
+                <option value="releaseTime" selected="selected">Default - Release Time</option>
+                <option value="location">Location</option>
+                <option value="priority">Priority</option>
+            </select>
+        </div>
     </div>
     <div class="page-header">
         <h1 id="timeline">Tasks</h1>
     </div>
-    <ul class="timeline" ng-repeat="task in organizerTasks">
+
+    <ul class="timeline" ng-repeat="task in organizerTasks | orderBy:sortBy:sortByReverse | limitTo: paginationLimit()">
         <li ng-class-odd="'timeline-inverted'">
             <div class="timeline-badge" ng-class="getClass(task.priority, task.releaseTime)">
                 <i class="glyphicon glyphicon-check"></i>
@@ -16,21 +30,66 @@
                 <div class="timeline-heading">
                     <h4 class="timeline-title"><b>Location: </b>{{task.location}}</h4>
                     <!--<p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> 11 hours ago via Twitter</small></p>-->
-                    <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>{{task.releaseTime| date:'medium'}}</small>
+                    <p>
+                        <small class="text-muted"><i class="glyphicon glyphicon-time"></i>{{task.releaseTime| date:'medium'}}</small>
                     </p>
                 </div>
                 <div class="timeline-body">
-                    <p><b>Description :</b>{{task.description}}
+                    <p>
+                        <b>Priority: </b>{{task.priority | priority}}
+                    </p>
+                    <p>
+                        <b>Description: </b>{{task.description}}
                     </p>
                     <hr/>
                     <div class="btn-group">
-                        <button type="button" class="btn btn-default" value="Add New Task"
-                                ng-click="showEditTaskForm(task.id)">Edit</button>
-                        <button type="button" class="btn btn-default" value="Add New Task"
-                                ng-click="showDeleteTaskForm(task.id)">Delete</button>
+                        <button type="button" class="btn btn-default"
+                                ng-click="showEditTaskForm(task.id)">
+                            <i class="fa fa-pencil"></i>Edit
+                        </button>
+                        <button type="button" class="btn btn-default"
+                                ng-click="showDeleteTaskForm(task.id)">
+                            <i class="fa fa-trash-o"></i>Delete
+                        </button>
                     </div>
                 </div>
             </div>
         </li>
     </ul>
+    <div class="form-group">
+        <label class="col-md-4 control-label" for="singlebutton"></label>
+        <div class="col-md-4 center-block">
+            <button id="singlebutton" name="singlebutton" class="btn btn-primary center-block"
+                    ng-show="hasMoreItemsToShow()"
+                    ng-click="showMoreItems()">
+                Show more
+            </button>
+        </div>
+    </div>
+
 </div>
+
+<a id="back-to-top" href="#" class="btn btn-primary btn-lg back-to-top" role="button" title="Click to return on the top page" data-toggle="tooltip" data-placement="left"><span class="glyphicon glyphicon-chevron-up"></span></a>
+
+<script>
+        $(document).ready(function () {
+            $(window).scroll(function () {
+                if ($(this).scrollTop() > 50) {
+                    $('#back-to-top').fadeIn();
+                } else {
+                    $('#back-to-top').fadeOut();
+                }
+            });
+            // scroll body to 0px on click
+            $('#back-to-top').click(function () {
+                $('#back-to-top').tooltip('hide');
+                $('body,html').animate({
+                    scrollTop: 0
+                }, 800);
+                return false;
+            });
+
+            $('#back-to-top').tooltip('show');
+
+        });
+</script>

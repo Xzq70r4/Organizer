@@ -14,6 +14,7 @@
     using Organizer.Models;
     using Organizer.WebAPI.Models;
 
+    [Authorize]
     public class OrganizerTasksController : BaseApiController
     {
         private IOrganizerData data;
@@ -37,8 +38,7 @@
             {
                 var tasks = data.OrganizerTasks
                                 .All()
-                                //.Where(t => t.UserId == currentUserId &&
-                                //            t.ReleaseTime > DateTime.Now)
+                                .Where(t => t.UserId == currentUserId)
                                 .Project()
                                 .To<OrganizerTaskBindingModel>()
                                 .ToList();
@@ -60,12 +60,8 @@
             {
                 var task = this.data.OrganizerTasks
                                    .All()
-                                   .Where(t =>
-                                       //t.UserId == currentUserId &&
-                                                t.Id == taskId 
-                                                //&&
-                                                //t.ReleaseTime > DateTime.Now
-                                                )
+                                   .Where(t => t.UserId == currentUserId &&
+                                               t.Id == taskId )
                                    .Project()
                                    .To<OrganizerTaskBindingModel>()
                                    .FirstOrDefault();
@@ -87,11 +83,11 @@
         public IHttpActionResult Post(CreateOrganizerTaskBindingModel model)
         {
             var currentUserId = this.User.Identity.GetUserId();
-
-            //if (model.ReleaseTime <= DateTime.Now)
-            //{
-            //    return this.BadRequest("\"RealiseTime\" should be in the future!");
-            //}
+            var oraganizerTaskReleaseTime = ConvertStringToDateTime(model.ReleaseTime);
+            if (oraganizerTaskReleaseTime <= DateTime.Now)
+            {
+                return this.BadRequest("\"RealiseTime\" should be in the future!");
+            }
 
 
             try
@@ -108,11 +104,11 @@
 
                 var dbTask = new OrganizerTask
                 {
-                    UserId = model.UserId,
+                    UserId = currentUserId,
                     Location = model.Location,
                     Description = model.Description,
                     Priority = model.Priority,
-                    ReleaseTime = ConvertStringToDateTime(model.ReleaseTime)
+                    ReleaseTime = oraganizerTaskReleaseTime
                 };
 
                 this.data.OrganizerTasks.Add(dbTask);
@@ -134,23 +130,24 @@
         public IHttpActionResult Put(Guid id, EditOrganizerTaskBindingModel model)
         {
             var currentUserId = this.User.Identity.GetUserId();
+            var oraganizerTaskReleaseTime = ConvertStringToDateTime(model.ReleaseTime);
 
             try
             {
-                //if (model == null)
-                //{
-                //    return BadRequest("Task cannot be null");
-                //}
+                if (model == null)
+                {
+                    return BadRequest("Task cannot be null");
+                }
 
-                //if (!ModelState.IsValid)
-                //{
-                //    return BadRequest(ModelState);
-                //}
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
 
-                //if (model.ReleaseTime <= DateTime.Now)
-                //{
-                //    return this.BadRequest("\"RealiseTime\" should be in the future!");
-                //}
+                if (oraganizerTaskReleaseTime <= DateTime.Now)
+                {
+                    return this.BadRequest("\"RealiseTime\" should be in the future!");
+                }
 
                 var dbTask = new OrganizerTask
                 {
@@ -159,7 +156,7 @@
                     Location = model.Location,
                     Description = model.Description,
                     Priority = model.Priority,
-                    ReleaseTime = ConvertStringToDateTime(model.ReleaseTime)
+                    ReleaseTime = oraganizerTaskReleaseTime
                 };
 
                 if (dbTask.UserId == currentUserId)
@@ -186,19 +183,17 @@
         public void Delete(Guid id)
         {
             var currentUserId = this.User.Identity.GetUserId();
-            var task = this.data.OrganizerTasks
-                                .All()
-                                .Where(t => t.Id == id)
-                                    //&&
-                                    //        t.UserId == currentUserId)
-                                .FirstOrDefault();
-            if (task != null)
+            var organizerTask = this.data.OrganizerTasks.GetById(id);
+
+            if (organizerTask != null &&
+                organizerTask.UserId == currentUserId)
             {
                 this.data.OrganizerTasks.Delete(id);
                 this.data.SaveChanges();
             }
         }
 
+        [NonAction]
         private static DateTime ConvertStringToDateTime(string stringDateTime)
         {
             string[] datetimeArr = stringDateTime.Split(new char[] { ' ', '/', ':' });
