@@ -1,1 +1,36 @@
-﻿<p>Home</p>
+﻿<div class="container" ng-controller="OrganizerTasksCtrl">
+    <div>
+        <input type="button" class="btn btn-primary" value="Add New Task"
+               ng-click="showCreateTaskForm()" />
+        <br />
+    </div>
+    <div class="page-header">
+        <h1 id="timeline">Tasks</h1>
+    </div>
+    <ul class="timeline" ng-repeat="task in organizerTasks">
+        <li ng-class-odd="'timeline-inverted'">
+            <div class="timeline-badge" ng-class="getClass(task.priority, task.releaseTime)">
+                <i class="glyphicon glyphicon-check"></i>
+            </div>
+            <div class="timeline-panel">
+                <div class="timeline-heading">
+                    <h4 class="timeline-title"><b>Location: </b>{{task.location}}</h4>
+                    <!--<p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> 11 hours ago via Twitter</small></p>-->
+                    <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>{{task.releaseTime| date:'medium'}}</small>
+                    </p>
+                </div>
+                <div class="timeline-body">
+                    <p><b>Description :</b>{{task.description}}
+                    </p>
+                    <hr/>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default" value="Add New Task"
+                                ng-click="showEditTaskForm(task.id)">Edit</button>
+                        <button type="button" class="btn btn-default" value="Add New Task"
+                                ng-click="showDeleteTaskForm(task.id)">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>

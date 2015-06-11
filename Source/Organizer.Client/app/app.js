@@ -16,7 +16,7 @@ var routeUserChecks = {
     }
 };
 
-var app = angular.module('organizerApp', ['ngResource','ngRoute'])
+var app = angular.module('organizerApp', ['ngResource', 'ngRoute', 'ui.bootstrap'])
     .config(function($routeProvider) {
 
         $routeProvider
@@ -26,6 +26,12 @@ var app = angular.module('organizerApp', ['ngResource','ngRoute'])
             })
             .when('/login', {
                 templateUrl: 'views/login.html'
+            })
+            .when('/test', {
+                templateUrl: 'views/test.html'
+            })
+            .when('/add-task', {
+                templateUrl: 'views/add-task.html'
             })
             .otherwise({ redirectTo: '/' });
     });

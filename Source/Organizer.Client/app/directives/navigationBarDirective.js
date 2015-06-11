@@ -3,7 +3,7 @@
 app.directive('navigationBar', function () {
     return {
         restrict: 'A',
-        templateUrl: 'views/navigation-bar.html',
+        templateUrl: 'views/directive/navigation-bar.html',
         replace: true,
         scope: false
     }

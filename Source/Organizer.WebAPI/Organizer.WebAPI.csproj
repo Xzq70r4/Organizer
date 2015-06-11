@@ -259,6 +259,8 @@
     </Compile>
     <Compile Include="Infrastructure\Mapping\IHaveCustomMappings.cs" />
     <Compile Include="Infrastructure\Mapping\IMapFrom.cs" />
+    <Compile Include="Models\CreateOrganizerTaskBindingModel .cs" />
+    <Compile Include="Models\EditOrganizerTaskBindingModel.cs" />
     <Compile Include="Models\OrganizerTaskBindingModel.cs" />
     <Compile Include="Models\Users\AddExternalLoginBindingModel.cs" />
     <Compile Include="Models\Users\ChangePasswordBindingModel.cs" />

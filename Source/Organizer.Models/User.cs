@@ -16,8 +16,6 @@
             this.tasks = new HashSet<OrganizerTask>();
         }
 
-        public string ImageUrl { get; set; }
-
         public virtual ICollection<OrganizerTask> Tasks
         {
             get { return this.tasks; }

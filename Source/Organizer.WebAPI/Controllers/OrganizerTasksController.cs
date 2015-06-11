@@ -1,6 +1,7 @@
 ﻿namespace Organizer.WebAPI.Controllers
 {
     using System;
+    using System.Globalization;
     using System.Linq;
     using System.Web.Http;
 
@@ -50,18 +51,23 @@
             }
         }
 
-        // GET: api/OrganizerTasks/Get/5
-        public IHttpActionResult Get(Guid id)
+        // GET: api/OrganizerTasks/Get/21A1A104-4D25-4D90-8241-12F8A995BF86
+        public IHttpActionResult Get(string id)
         {
             var currentUserId = this.User.Identity.GetUserId();
-
+            var taskId = new Guid(id);
             try
             {
                 var task = this.data.OrganizerTasks
                                    .All()
-                                   .Where(t => t.UserId == currentUserId &&
-                                                t.Id == id &&
-                                                t.ReleaseTime > DateTime.Now)
+                                   .Where(t =>
+                                       //t.UserId == currentUserId &&
+                                                t.Id == taskId 
+                                                //&&
+                                                //t.ReleaseTime > DateTime.Now
+                                                )
+                                   .Project()
+                                   .To<OrganizerTaskBindingModel>()
                                    .FirstOrDefault();
 
                 if (task == null)
@@ -69,7 +75,7 @@
                     return NotFound();
                 }
 
-                return Ok(task);
+                return this.Ok(task);
             }
             catch (Exception ex)
             {
@@ -78,14 +84,14 @@
         }
 
         // POST: api/OrganizerTask/Post
-        public IHttpActionResult Post([FromBody]OrganizerTaskBindingModel model)
+        public IHttpActionResult Post(CreateOrganizerTaskBindingModel model)
         {
             var currentUserId = this.User.Identity.GetUserId();
 
-            if (model.ReleaseTime <= DateTime.Now)
-            {
-                return this.BadRequest("\"RealiseTime\" should be in the future!");
-            }
+            //if (model.ReleaseTime <= DateTime.Now)
+            //{
+            //    return this.BadRequest("\"RealiseTime\" should be in the future!");
+            //}
 
 
             try
@@ -100,7 +106,15 @@
                     return BadRequest(ModelState);
                 }
 
-                var dbTask = Mapper.Map<OrganizerTask>(model);
+                var dbTask = new OrganizerTask
+                {
+                    UserId = model.UserId,
+                    Location = model.Location,
+                    Description = model.Description,
+                    Priority = model.Priority,
+                    ReleaseTime = ConvertStringToDateTime(model.ReleaseTime)
+                };
+
                 this.data.OrganizerTasks.Add(dbTask);
                 this.data.SaveChanges();
                 if (dbTask == null)
@@ -108,7 +122,7 @@
                     return Conflict();
                 }
 
-                return this.Get(dbTask.Id);
+                return this.Ok();
             }
             catch (Exception ex)
             {
@@ -116,29 +130,37 @@
             }
         }
 
-        // PUT: api/OrganizerTasks/Put/5
-        public IHttpActionResult Put(Guid id, [FromBody]OrganizerTaskBindingModel model)
+        // PUT: api/OrganizerTasks/Put/21A1A104-4D25-4D90-8241-12F8A995BF86
+        public IHttpActionResult Put(Guid id, EditOrganizerTaskBindingModel model)
         {
             var currentUserId = this.User.Identity.GetUserId();
 
             try
             {
-                if (model == null)
-                {
-                    return BadRequest("Task cannot be null");
-                }
+                //if (model == null)
+                //{
+                //    return BadRequest("Task cannot be null");
+                //}
 
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
+                //if (!ModelState.IsValid)
+                //{
+                //    return BadRequest(ModelState);
+                //}
 
-                if (model.ReleaseTime <= DateTime.Now)
-                {
-                    return this.BadRequest("\"RealiseTime\" should be in the future!");
-                }
+                //if (model.ReleaseTime <= DateTime.Now)
+                //{
+                //    return this.BadRequest("\"RealiseTime\" should be in the future!");
+                //}
 
-                var dbTask = Mapper.Map<OrganizerTask>(model);
+                var dbTask = new OrganizerTask
+                {
+                    Id = model.Id,
+                    UserId = model.UserId,
+                    Location = model.Location,
+                    Description = model.Description,
+                    Priority = model.Priority,
+                    ReleaseTime = ConvertStringToDateTime(model.ReleaseTime)
+                };
 
                 if (dbTask.UserId == currentUserId)
                 {
@@ -159,20 +181,37 @@
             }
         }
 
-        // DELETE: api/Products/5
+        // DELETE: api/OrganizerTasks/21A1A104-4D25-4D90-8241-12F8A995BF865
+        //TODO:fix this
         public void Delete(Guid id)
         {
             var currentUserId = this.User.Identity.GetUserId();
-
             var task = this.data.OrganizerTasks
                                 .All()
-                                .Where(t => t.Id == id &&
-                                            t.UserId == currentUserId)
+                                .Where(t => t.Id == id)
+                                    //&&
+                                    //        t.UserId == currentUserId)
                                 .FirstOrDefault();
             if (task != null)
             {
                 this.data.OrganizerTasks.Delete(id);
+                this.data.SaveChanges();
             }
+        }
+
+        private static DateTime ConvertStringToDateTime(string stringDateTime)
+        {
+            string[] datetimeArr = stringDateTime.Split(new char[] { ' ', '/', ':' });
+
+            var releaseTime = new DateTime(
+                Int32.Parse(datetimeArr[0]),
+                Int32.Parse(datetimeArr[1]),
+                Int32.Parse(datetimeArr[2]),
+                Int32.Parse(datetimeArr[3]),
+                Int32.Parse(datetimeArr[4]),
+                Int32.Parse(datetimeArr[5]));
+
+            return releaseTime;
         }
     }
 }
