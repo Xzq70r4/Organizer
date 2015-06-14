@@ -1,6 +1,14 @@
 ﻿
 app.controller('EditOrganizerTasksCtrl',
-    function EditOrganizerTasksCtrl($scope, $modalInstance, organizerData, auth, editTaskId, $filter, dateTime) {
+    function EditOrganizerTasksCtrl($scope, $modalInstance, $route, $filter, $timeout,
+        organizerData, auth, editTaskId, dateTime) {
+        var timer;
+        var updateTime = function () {
+            $scope.dateTimeNow = Date.now();
+            timer = $timeout(updateTime, $scope.dateTimeNow % 1000);
+        };
+        updateTime();
+
         organizerData
             .organizerTask
             .getOraganizerTaskById(auth.access_token(), editTaskId)
@@ -10,23 +18,54 @@ app.controller('EditOrganizerTasksCtrl',
                     $filter('date')($scope.editOrganizerTask.releaseTime, 'yyyy-MM-dd HH:mm:ss Z');
             });
 
-        $scope.submitEditForm = function () {
+        
 
-            $scope.editOrganizerTask.releaseTime = dateTime.converToString($scope.editOrganizerTask.releaseTime);
+        $scope.isError = function (releaseTime) {
+            if ((releaseTime <= $scope.dateTimeNow) ||
+                (releaseTime === null) ||
+                (releaseTime === undefined) ||
+                ($scope.dateTimeSubmit === true)) {
+                return 'has-error';
+            };
+        };
 
-            organizerData
-               .organizerTask
-               .putOraganizerTask(auth.access_token(), $scope.editOrganizerTask)
-               .then(function (data) {
-                   console.log('finished edit' + data);
-               });
+        $scope.checkerDateTime = function (releaseTime) {
+            if (releaseTime <= $scope.dateTimeNow ||
+                (releaseTime === null) ||
+                (releaseTime === undefined)) {
 
-            $modalInstance.dismiss();
+                return true;
+            };
+        };
+
+        $scope.submitEditForm = function (editForm) {
+            //working with editOrganizerTask(not with editForm), becouse ui bootstrap timepicker and datepicker not have required and datepiker not work
+            if (editForm.$valid &&
+               (new Date($scope.editOrganizerTask.releaseTime) > new Date($scope.dateTimeNow))) {
+
+                $scope.editOrganizerTask.releaseTime = dateTime.converToString($scope.editOrganizerTask.releaseTime);
+
+                organizerData
+                   .organizerTask
+                   .putOraganizerTask(auth.access_token(), $scope.editOrganizerTask)
+                   .then(function (data) {
+                        $route.reload();
+                       console.log('finished edit' + data);
+                   });
+
+                    $timeout.cancel(timer);
+                    $modalInstance.dismiss();
+            }
+
+            if (new Date($scope.editOrganizerTask.releaseTime) <= new Date($scope.dateTimeNow)) {
+                $scope.dateTimeSubmit = true;
+            }
+
+            $scope.$broadcast('has-errors');
         };
 
         $scope.cancelEditForm = function () {
 
             $modalInstance.dismiss();
         };
-
     });

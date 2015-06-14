@@ -3,38 +3,69 @@
 </div>
 
 <div class="modal-body">
-    <form class="form-horizontal" role="form">
+    <form class="form-horizontal" role="form" name="editForm" novalidate>
 
         <fieldset>
-            <div class="form-group">
-                <label for="location" class="col-sm-3 control-label">Location</label>
+            <div class="form-group"
+                 ng-class="{'has-error' : (editForm.location.$invalid && editForm.location.$touched) || (submitted && editForm.location.$invalid)}">
+                <label for="location" class="col-sm-3 control-label">
+                    Location
+                </label>
                 <div class="col-sm-9">
+
                     <input type="text" id="location" name="location" class="form-control"
-                           ng-model="editOrganizerTask.location"/>
+                           required=""
+                           ng-minlength="3"
+                           ng-maxlength="50"
+                           ng-model="editOrganizerTask.location" />
+
+                    <p ng-show="(editForm.location.$error.required && editForm.location.$touched) ||
+                       (submitted && editForm.location.$error.required)" class="help-block">Location is required.</p>
+                    <p ng-show="(editForm.location.$error.minlength && editForm.location.$touched) ||
+                       (submitted && editForm.location.$error.minlength)" class="help-block">Location is too short.</p>
+                    <p ng-show="(editForm.location.$error.maxlength && editForm.location.$touched) ||
+                       (submitted && editForm.location.$error.maxlength)" class="help-block">Location is too long.</p>
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group"
+                 ng-class="{'has-error' : (editForm.description.$invalid && editForm.description.$touched) || (submitted && editForm.description.$invalid )}">
                 <label for="description" class="col-sm-3 control-label">Description</label>
                 <div class="col-sm-9">
-                    <textarea name="notes" id="description" class="form-control" rows="5" cols="40"
+
+                    <textarea name="description" id="description" class="form-control" rows="5" cols="40"
+                              required=""
+                              ng-minlength="5"
+                              ng-maxlength="500"
                               ng-model="editOrganizerTask.description"></textarea>
+
+                    <p ng-show="(editForm.description.$error.required && editForm.description.$touched) ||
+                        (submitted && editForm.description.$error.required)" class="help-block">Description is required.</p>
+                    <p ng-show="(editForm.description.$error.minlength && editForm.description.$touched) ||
+                       (submitted && editForm.description.$error.minlength)" class="help-block">Description is too short.</p>
+                    <p ng-show="(editForm.description.$error.maxlength && editForm.description.$touched) ||
+                       (submitted && editForm.description.$error.maxlength)" class="help-block">Description is too long.</p>
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="date" class="col-sm-3 control-label">Date</label>
+                <label for="date" class="col-sm-3 control-label">Release</label>
                 <div class="col-sm-9" id="date">
                     <datepicker name="date" ng-model="editOrganizerTask.releaseTime">
                     </datepicker>
                 </div>
             </div>
 
-            <div class="form-group">
-                <label for="time" class="col-sm-3 control-label">Time</label>
+            <div class="form-group" ng-class="isError(editOrganizerTask.releaseTime)">
+                <label for="time" class="col-sm-3 control-label"></label>
                 <div class="col-sm-9" id="time">
                     <timepicker name="time" ng-model="editOrganizerTask.releaseTime">
                     </timepicker>
+                    <p class="help-block"
+                       ng-show="checkerDateTime(editOrganizerTask.releaseTime) || dateTimeSubmit"
+                       ng-hide="editOrganizerTask.releaseTime > dateTimeNow">
+                        "Release Time" should be in the future!
+                    </p>
                 </div>
             </div>
 
@@ -44,12 +75,14 @@
                     <div class="radio" id="priority">
                         <label>
                             <input type="radio" name="priority" value="0"
+                                   required=""
                                    ng-model="editOrganizerTask.priority" /> Urgent
                         </label><br />
                     </div>
                     <div class="radio">
                         <label>
                             <input type="radio" name="priority" value="1"
+                                   required=""
                                    ng-model="editOrganizerTask.priority" /> Non - Urgent
                         </label><br />
                     </div>
@@ -57,7 +90,7 @@
             </div>
 
         </fieldset>
-        <br/>
+        <br />
 
     </form>
 </div>
@@ -67,7 +100,9 @@
 
     <div class="col-sm-offset-3 col-sm-9">
         <button type="submit" class="btn btn-primary"
-               ng-click="submitEditForm()">Submit</button>
+                ng-click="submitEditForm(editForm); submitted=true">
+            Submit
+        </button>
         <button type="button" class="btn btn-default"
                ng-click="cancelEditForm()">Cancel</button>
     </div>

@@ -1,23 +1,26 @@
 ﻿namespace Organizer.WebAPI.Models
 {
-    using System;
+    using System.ComponentModel.DataAnnotations;
 
-    using AutoMapper;
 
     using Organizer.Models;
-    using Organizer.WebAPI.Infrastructure.Mapping;
 
     public class CreateOrganizerTaskBindingModel
     {
-
-        public string UserId { get; set; }
-
+        [Required]
+        [MinLength(3)]
+        [MaxLength(50)]
         public string Location { get; set; }
 
+        [Required]
         public Priority Priority { get; set; }
 
+        [Required]
+        [MinLength(5)]
+        [MaxLength(500)]
         public string Description { get; set; }
 
+        [Required]
         public string ReleaseTime { get; set; }
     }
 }

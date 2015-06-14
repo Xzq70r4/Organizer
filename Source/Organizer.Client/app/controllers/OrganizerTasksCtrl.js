@@ -28,6 +28,13 @@ app.controller('OrganizerTasksCtrl',
         });
     };
 
+    $scope.showCreateTaskForm = function () {
+        $modal.open({
+            templateUrl: 'views/add-task.html',
+            controller: 'CreateOrganizerTasksCtrl'
+        });
+    };
+
     $scope.getClass = function(priority, releaseTime) {
         var now = $filter('date')(new Date(Date.now()), 'yyyy-MM-dd HH:mm:ss Z');
         var time = $filter('date')(releaseTime, 'yyyy-MM-dd HH:mm:ss Z');
@@ -79,12 +86,5 @@ app.controller('OrganizerTasksCtrl',
 
     $scope.showMoreItems = function () {
         pagesShown = pagesShown + 1;
-    };
-
-    $scope.showCreateTaskForm = function () {
-        $modal.open({
-            templateUrl: 'views/add-task.html',
-            controller: 'CreateOrganizerTasksCtrl'
-        });
     };
 });

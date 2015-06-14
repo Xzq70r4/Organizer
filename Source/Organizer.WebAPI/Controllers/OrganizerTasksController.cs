@@ -1,9 +1,9 @@
 ﻿namespace Organizer.WebAPI.Controllers
 {
     using System;
-    using System.Globalization;
     using System.Linq;
     using System.Web.Http;
+    using System.Web.Http.Cors;
 
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
@@ -61,7 +61,7 @@
                 var task = this.data.OrganizerTasks
                                    .All()
                                    .Where(t => t.UserId == currentUserId &&
-                                               t.Id == taskId )
+                                               t.Id == taskId)
                                    .Project()
                                    .To<OrganizerTaskBindingModel>()
                                    .FirstOrDefault();
@@ -86,7 +86,7 @@
             var oraganizerTaskReleaseTime = ConvertStringToDateTime(model.ReleaseTime);
             if (oraganizerTaskReleaseTime <= DateTime.Now)
             {
-                return this.BadRequest("\"RealiseTime\" should be in the future!");
+                return this.BadRequest("\"Realise Time\" should be in the future!");
             }
 
 
@@ -136,12 +136,12 @@
             {
                 if (model == null)
                 {
-                    return BadRequest("Task cannot be null");
+                    return this.BadRequest("Task cannot be null");
                 }
 
                 if (!ModelState.IsValid)
                 {
-                    return BadRequest(ModelState);
+                    return this.BadRequest(ModelState);
                 }
 
                 if (oraganizerTaskReleaseTime <= DateTime.Now)
@@ -149,25 +149,32 @@
                     return this.BadRequest("\"RealiseTime\" should be in the future!");
                 }
 
-                var dbTask = new OrganizerTask
-                {
-                    Id = model.Id,
-                    UserId = model.UserId,
-                    Location = model.Location,
-                    Description = model.Description,
-                    Priority = model.Priority,
-                    ReleaseTime = oraganizerTaskReleaseTime
-                };
+                
 
-                if (dbTask.UserId == currentUserId)
+                if (model.UserId == currentUserId)
                 {
+                    var dbTask = new OrganizerTask
+                    {
+                        Id = model.Id,
+                        UserId = model.UserId,
+                        Location = model.Location,
+                        Description = model.Description,
+                        Priority = model.Priority,
+                        ReleaseTime = oraganizerTaskReleaseTime
+                    };
+
+                    if (dbTask == null)
+                    {
+                        return NotFound();
+                    }
+
                     this.data.OrganizerTasks.Update(dbTask);
                     this.data.SaveChanges();
                 }
 
-                if (dbTask == null)
+                if (model.UserId != currentUserId)
                 {
-                    return NotFound();
+                    return this.BadRequest("This task is not your !");
                 }
 
                 return Ok();

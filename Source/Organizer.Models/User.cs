@@ -1,6 +1,7 @@
 ﻿namespace Organizer.Models
 {
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
@@ -15,6 +16,11 @@
         {
             this.tasks = new HashSet<OrganizerTask>();
         }
+
+        [Required]
+        [MinLength(2)]
+        [MaxLength(20)]
+        public override string UserName { get; set; }
 
         public virtual ICollection<OrganizerTask> Tasks
         {

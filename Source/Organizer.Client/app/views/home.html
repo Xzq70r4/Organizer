@@ -7,7 +7,12 @@
     <div class="col-md-3 pull-right">
         <div class="row">
             <p class="col-md-6 lead">Sort by </p>
-            <button class="btn col-md-6 btn-primary" ng-click="sortTypeClicked()">{{sortTypeText}}</button>
+            <button class="btn col-md-6 btn-primary"
+                    ng-click="sortTypeClicked()"
+                    ng-show="sortBy !== 'priority'"
+                    ng-hide="sortBy === 'priority'">
+                {{sortTypeText}}
+            </button>
         </div>
         <div class="row">
             <select class="form-control col-md-12" ng-model="sortBy">

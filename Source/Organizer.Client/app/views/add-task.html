@@ -3,38 +3,69 @@
 </div>
 
 <div class="modal-body">
-    <form class="form-horizontal" role="form" >
+    <form class="form-horizontal" role="form" name="createForm" novalidate>
 
         <fieldset>
-            <div class="form-group">
-                <label for="location" class="col-sm-3 control-label">Location</label>
+            <div class="form-group"
+                 ng-class="{'has-error' : (createForm.location.$invalid && createForm.location.$touched) || (submitted && createForm.location.$invalid)}">
+                <label for="location" class="col-sm-3 control-label">
+                    Location
+                </label>
                 <div class="col-sm-9">
+                    
                     <input type="text" id="location" name="location" class="form-control"
-                           ng-model="createOrganizerTask.location" />
+                           required=""
+                           ng-minlength="3"
+                           ng-maxlength="50"
+                           ng-model="createOrganizerTask.location"/>
+
+                    <p ng-show="(createForm.location.$error.required && createForm.location.$touched) ||
+                       (submitted && createForm.location.$error.required)" class="help-block">Location is required.</p>
+                    <p ng-show="(createForm.location.$error.minlength && createForm.location.$touched) ||
+                       (submitted && createForm.location.$error.minlength)" class="help-block">Location is too short.</p>
+                    <p ng-show="(createForm.location.$error.maxlength && createForm.location.$touched) ||
+                       (submitted && createForm.location.$error.maxlength)" class="help-block">Location is too long.</p>
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group"
+                 ng-class="{'has-error' : (createForm.description.$invalid && createForm.description.$touched) || (submitted && createForm.description.$invalid )}">
                 <label for="description" class="col-sm-3 control-label">Description</label>
                 <div class="col-sm-9">
-                    <textarea name="notes" id="description" class="form-control" rows="5" cols="40"
+                    
+                    <textarea name="description" id="description" class="form-control" rows="5" cols="40"
+                              required=""
+                              ng-minlength="5"
+                              ng-maxlength="500"
                               ng-model="createOrganizerTask.description"></textarea>
+
+                    <p ng-show="(createForm.description.$error.required && createForm.description.$touched) ||
+                        (submitted && createForm.description.$error.required)" class="help-block">Description is required.</p>
+                    <p ng-show="(createForm.description.$error.minlength && createForm.description.$touched) ||
+                       (submitted && createForm.description.$error.minlength)" class="help-block">Description is too short.</p>
+                    <p ng-show="(createForm.description.$error.maxlength && createForm.description.$touched) ||
+                       (submitted && createForm.description.$error.maxlength)" class="help-block">Description is too long.</p>
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="date" class="col-sm-3 control-label">Date</label>
+                <label for="date" class="col-sm-3 control-label">Release</label>
                 <div class="col-sm-9" id="date">
                     <datepicker name="date" ng-model="createOrganizerTask.releaseTime">
                     </datepicker>
                 </div>
             </div>
 
-            <div class="form-group">
-                <label for="time" class="col-sm-3 control-label">Time</label>
+            <div class="form-group" ng-class="isWarning(createOrganizerTask.releaseTime)">
+                <label for="time" class="col-sm-3 control-label"></label>
                 <div class="col-sm-9" id="time">
                     <timepicker name="time" ng-model="createOrganizerTask.releaseTime">
                     </timepicker>
+                    <p class="help-block"
+                       ng-show="((createOrganizerTask.releaseTime <= dateTimeNow) || !createOrganizerTask.releaseTime.HasValue)"
+                       ng-hide="createOrganizerTask.releaseTime > dateTimeNow">
+                        "Release Time" should be in the future!
+                    </p>
                 </div>
             </div>
 
@@ -44,30 +75,31 @@
                     <div class="radio" id="priority">
                         <label>
                             <input type="radio" name="priority" value="0"
-                                   ng-model="createOrganizerTask.priority" /> Urgent
-                        </label><br />
+                                   required=""
+                                   ng-model="createOrganizerTask.priority"/> Urgent
+                        </label><br/>
                     </div>
                     <div class="radio">
                         <label>
                             <input type="radio" name="priority" value="1"
-                                   ng-model="createOrganizerTask.priority" /> Non - Urgent
-                        </label><br />
+                                   required=""
+                                   ng-model="createOrganizerTask.priority"/> Non - Urgent
+                        </label><br/>
                     </div>
                 </div>
             </div>
 
         </fieldset>
-        <br />
+        <br/>
 
     </form>
 </div>
-
 
 <div class="modal-footer">
 
     <div class="col-sm-offset-3 col-sm-9">
         <button type="submit" class="btn btn-primary"
-                ng-click="submitCreateForm()">
+                ng-click="submitCreateForm(createForm); submitted=true">
             Submit
         </button>
         <button type="button" class="btn btn-default"

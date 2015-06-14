@@ -5,6 +5,8 @@ namespace Organizer.WebAPI.Models.Users
     public class RegisterBindingModel
     {
         [Required]
+        [MinLength(2)]
+        [MaxLength(20)]
         [Display(Name = "Username")]
         public string Username { get; set; }
 
