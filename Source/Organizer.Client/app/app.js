@@ -16,7 +16,7 @@ var routeUserChecks = {
     }
 };
 
-var app = angular.module('organizerApp', ['ngResource', 'ngRoute', 'ui.bootstrap'])
+var app = angular.module('organizerApp', ['ngResource', 'ngRoute', 'ui.bootstrap','angular-loading-bar', 'ngAnimate'])
     .config(function($routeProvider) {
 
         $routeProvider

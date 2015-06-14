@@ -21,9 +21,9 @@ app.controller('CreateOrganizerTasksCtrl',
         };
 
         $scope.submitCreateForm = function (createForm) {
-            //working with editOrganizerTask(not with editForm), becouse ui bootstrap timepicker and datepicker not have required and datepiker not work
+            //working with createOrganizerTask(not with createForm), becouse ui bootstrap timepicker and datepicker not have required and datepiker not work
             if (createForm.$valid &&
-                (new Date($scope.editOrganizerTask.releaseTime) > new Date($scope.dateTimeNow))) {
+                (new Date($scope.createOrganizerTask.releaseTime) > new Date($scope.dateTimeNow))) {
 
                  $scope.createOrganizerTask.releaseTime = dateTime.converToString($scope.createOrganizerTask.releaseTime);
 
@@ -32,7 +32,7 @@ app.controller('CreateOrganizerTasksCtrl',
                    .postOraganizerTask(auth.access_token(), $scope.createOrganizerTask)
                    .then(function (data) {
                        $route.reload();
-                       console.log('finished edit' + data);
+                       console.log('finished create' + data);
                    });
 
                 $timeout.cancel(timer);
