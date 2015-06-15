@@ -1,7 +1,7 @@
 ﻿
 app.controller('EditOrganizerTasksCtrl',
     function EditOrganizerTasksCtrl($scope, $modalInstance, $route, $filter, $timeout,
-        organizerData, auth, editTaskId, dateTime) {
+        organizerData, auth, editTaskId, dateTime, Notification) {
         var timer;
         var updateTime = function () {
             $scope.dateTimeNow = Date.now();
@@ -49,8 +49,10 @@ app.controller('EditOrganizerTasksCtrl',
                    .organizerTask
                    .putOraganizerTask(auth.access_token(), $scope.editOrganizerTask)
                    .then(function (data) {
-                        $route.reload();
-                       console.log('finished edit' + data);
+                       Notification.success('Successful edited task!');
+                       $route.reload();
+                   }, function (error) {
+                       Notification.error('<br>Unsuccessful edited task!<br>' + error);
                    });
 
                     $timeout.cancel(timer);

@@ -1,7 +1,7 @@
 ﻿
 app.controller('CreateOrganizerTasksCtrl',
     function CreateOrganizerTasksCtrl($scope, $modalInstance, $route, $timeout,
-        organizerData, dateTime, auth) {
+        organizerData, dateTime, auth, Notification) {
         var timer;
         var updateTime = function () {
             $scope.dateTimeNow = Date.now();
@@ -31,8 +31,10 @@ app.controller('CreateOrganizerTasksCtrl',
                    .organizerTask
                    .postOraganizerTask(auth.access_token(), $scope.createOrganizerTask)
                    .then(function (data) {
+                       Notification.success('Successful created task!');
                        $route.reload();
-                       console.log('finished create' + data);
+                   }, function (error) {
+                       Notification.error('<br>Unsuccessful create task!<br>' + error);
                    });
 
                 $timeout.cancel(timer);

@@ -1,6 +1,6 @@
 ﻿
 app.controller('DeleteOrganizerTaskCtrl',
-    function DeleteOrganizerTaskCtrl($scope,$window, $location, $modalInstance, $route, organizerData, auth, deleteTaskId) {
+    function DeleteOrganizerTaskCtrl($scope, $window, $location, $modalInstance, $route, organizerData, auth, deleteTaskId, Notification) {
 
         $scope.yesDeleteForm = function () {
 
@@ -10,11 +10,12 @@ app.controller('DeleteOrganizerTaskCtrl',
                 .organizerTask
                 .deleteOraganizerTask(auth.access_token(), deleteTaskId)
                 .then(function (data) {
+                    Notification.success('Successful deleted task!');
                     $route.reload();
-                console.log('finished delete' + data);
+                }, function (error) {
+                    Notification.error('<br>Unsuccessful delete task!<br>' + error);
                 });
-            //TODO: Preload data after delete
-            //$window.location.href = '#/';
+
             $modalInstance.dismiss();
         };
 

@@ -1,30 +1,36 @@
 ﻿<div class="container" ng-controller="OrganizerTasksCtrl">
-    <div>
-        <button type="button" class="btn btn-primary"
-                ng-click="showCreateTaskForm()"><i class="fa fa-plus-circle"></i> Add Task</button>
-        <br/>
-    </div>
-    <div class="col-md-3 pull-right">
-        <div class="row">
-            <p class="col-md-6 lead">Sort by </p>
-            <button class="btn col-md-6 btn-primary"
-                    ng-click="sortTypeClicked()"
-                    ng-show="sortBy !== 'priority'"
-                    ng-hide="sortBy === 'priority'">
-                {{sortTypeText}}
+    <div class="row">
+        <div class="page-header text-center">
+            <h1 id="timeline">Tasks</h1>
+        </div>
+        <div class="col-md-3 pull-left">
+            <button type="button" class="btn btn-primary"
+                    ng-click="showCreateTaskForm()">
+                <i class="fa fa-plus-circle"></i> Add Task
             </button>
+            <br/>
         </div>
-        <div class="row">
-            <select class="form-control col-md-12" ng-model="sortBy">
-                <option value="releaseTime" selected="selected">Default - Release Time</option>
-                <option value="location">Location</option>
-                <option value="priority">Priority</option>
-            </select>
+        <div class="col-md-3 pull-right">
+            <div class="row">
+                <p class="col-md-6 lead">Sort by </p>
+                <button class="btn col-md-6 btn-primary"
+                        ng-click="sortTypeClicked()"
+                        ng-show="sortBy !== 'priority'"
+                        ng-hide="sortBy === 'priority'">
+                    {{sortTypeText}}
+                </button>
+            </div>
+            <div class="row">
+                <select class="form-control col-md-12" ng-model="sortBy">
+                    <option value="releaseTime" selected="selected">Default - Release Time</option>
+                    <option value="location">Location</option>
+                    <option value="priority">Priority</option>
+                </select>
+            </div>
         </div>
     </div>
-    <div class="page-header">
-        <h1 id="timeline">Tasks</h1>
-    </div>
+
+   
 
     <ul class="timeline" ng-repeat="task in organizerTasks | orderBy:sortBy:sortByReverse | limitTo: paginationLimit()">
         <li ng-class-odd="'timeline-inverted'">
@@ -34,7 +40,6 @@
             <div class="timeline-panel">
                 <div class="timeline-heading">
                     <h4 class="timeline-title"><b>Location: </b>{{task.location}}</h4>
-                    <!--<p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> 11 hours ago via Twitter</small></p>-->
                     <p>
                         <small class="text-muted"><i class="glyphicon glyphicon-time"></i>{{task.releaseTime| date:'medium'}}</small>
                     </p>

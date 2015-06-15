@@ -16,12 +16,18 @@ var routeUserChecks = {
     }
 };
 
-var app = angular.module('organizerApp', ['ngResource', 'ngRoute', 'ui.bootstrap','angular-loading-bar', 'ngAnimate'])
-    .config(function($routeProvider) {
+var app = angular.module('organizerApp', ['ngResource', 'ngRoute', 'ui.bootstrap', 'angular-loading-bar', 'ngAnimate','ui-notification'])
+    .config(function ($routeProvider, cfpLoadingBarProvider) {
+
+        cfpLoadingBarProvider.includeSpinner = false;
 
         $routeProvider
             .when('/', {
                 templateUrl: 'views/home.html',
+                resolve: routeUserChecks.authenticated
+            })
+            .when('/test', {
+                templateUrl: 'views/test.html',
                 resolve: routeUserChecks.authenticated
             })
             .when('/login', {

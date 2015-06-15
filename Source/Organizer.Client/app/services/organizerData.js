@@ -3,6 +3,29 @@
 app.factory('organizerData', function ($resource, $http, $q) {
     var url = 'http://localhost:9274/';
 
+    function parseErrors(serverError) {
+        var errors = [];
+        if (serverError && serverError.error_description) {
+            console.log(serverError.error_description);
+            errors.push(serverError.error_description);
+        }
+        if (serverError && serverError.modelState) {
+            var modelStateErrors = serverError.modelState;
+            for (var propertyName in modelStateErrors) {
+                var errorMessages = modelStateErrors[propertyName];
+                var trimmedName = propertyName.substr(propertyName.indexOf('.') + 1);
+                for (var i = 0; i < errorMessages.length; i++) {
+                    var currentError = errorMessages[i];
+                    errors.push(trimmedName + ' - ' + currentError);
+                }
+            }
+        }
+        if (errors.length > 0) {
+            var msg ="<br>" + errors.join("<br>");
+        } 
+        return errors;
+    }
+
     function register(username, password) {
         var deferred = $q.defer();
 
@@ -26,7 +49,7 @@ app.factory('organizerData', function ($resource, $http, $q) {
                 deferred.resolve(data);
             })
             .error(function (data) {
-                deferred.reject(data);
+                deferred.reject(parseErrors(data));
             });
 
         return deferred.promise;
@@ -55,7 +78,7 @@ app.factory('organizerData', function ($resource, $http, $q) {
                 deferred.resolve(data);
             })
             .error(function (data) {
-                deferred.reject(data);
+                deferred.reject(parseErrors(data));
             });
 
         return deferred.promise;
@@ -83,7 +106,7 @@ app.factory('organizerData', function ($resource, $http, $q) {
                 deferred.resolve(data);
             })
             .error(function (data) {
-                deferred.reject(data);
+                deferred.reject(parseErrors(data));
             });
 
         return deferred.promise;
@@ -111,7 +134,7 @@ app.factory('organizerData', function ($resource, $http, $q) {
                 deferred.resolve(data);
             })
             .error(function (data) {
-                deferred.reject(data);
+                deferred.reject(parseErrors(data));
             });
 
         return deferred.promise;
@@ -137,7 +160,7 @@ app.factory('organizerData', function ($resource, $http, $q) {
                 deferred.resolve(data);
             })
             .error(function (data) {
-                deferred.reject(data);
+                deferred.reject(parseErrors(data));
             });
 
         return deferred.promise;
@@ -165,7 +188,7 @@ app.factory('organizerData', function ($resource, $http, $q) {
                 deferred.resolve(data);
             })
             .error(function (data) {
-                deferred.reject(data);
+                deferred.reject(parseErrors(data));
             });
 
         return deferred.promise;
@@ -186,7 +209,7 @@ app.factory('organizerData', function ($resource, $http, $q) {
                 deferred.resolve(data);
             })
             .error(function (data) {
-                deferred.reject(data);
+                deferred.reject(parseErrors(data));
             });
 
         return deferred.promise;
