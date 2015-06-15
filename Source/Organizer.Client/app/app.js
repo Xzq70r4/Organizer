@@ -16,7 +16,7 @@ var routeUserChecks = {
     }
 };
 
-var app = angular.module('organizerApp', ['ngResource', 'ngRoute', 'ui.bootstrap', 'angular-loading-bar', 'ngAnimate','ui-notification'])
+var app = angular.module('organizerApp', ['ngResource', 'ngRoute', 'ui.bootstrap', 'angular-loading-bar', 'ngAnimate','ui-notification', 'ngStorage'])
     .config(function ($routeProvider, cfpLoadingBarProvider) {
 
         cfpLoadingBarProvider.includeSpinner = false;

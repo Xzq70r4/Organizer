@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 app.controller('OrganizerTasksCtrl',
-    function OrganizerTasksCtrl($scope, organizerData, auth, $filter, $modal) {
+    function OrganizerTasksCtrl($scope, organizerData, auth, $filter, $modal, $localStorage) {
 
     $scope.showEditTaskForm = function (taskId) {
         $modal.open({
@@ -51,12 +51,20 @@ app.controller('OrganizerTasksCtrl',
         }
     };
 
-    organizerData
-        .organizerTask
-        .getOrganizerTasks(auth.access_token())
-        .then(function (data) {
-        $scope.organizerTasks = data;
-        });
+    if ($.isEmptyObject(localStorage.organizerTasks)) {
+        organizerData
+            .organizerTask
+            .getOrganizerTasks(auth.access_token())
+            .then(function (data) {
+                $scope.organizerTasks = data;
+            });
+    } else {
+        $scope.organizerTasks = $localStorage.organizerTasks;
+    }
+
+    $scope.$watch('organizerTasks', function () {
+        $localStorage.organizerTasks = $scope.organizerTasks;
+    }, true);
 
     $scope.sortBy = 'releaseTime';
     $scope.sortTypeText = 'Descending';
