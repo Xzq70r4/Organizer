@@ -26,18 +26,8 @@ var app = angular.module('organizerApp', ['ngResource', 'ngRoute', 'ui.bootstrap
                 templateUrl : 'views/home.html',
                 resolve: routeUserChecks.authenticated
             })
-            .when('/test', {
-                templateUrl : 'views/test.html',
-                resolve: routeUserChecks.authenticated
-            })
             .when('/login', {
                 templateUrl : 'views/login.html'
-            })
-            .when('/test', {
-                templateUrl : 'views/test.html'
-            })
-            .when('/add-task', {
-                templateUrl : 'views/add-task.html'
             })
             .otherwise({ redirectTo: '/' });
     });

@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 app.controller('MainCtrl',
-    function MainCtrlr ($rootScope, auth, $location) {
+    function MainCtrl ($rootScope, auth, $location) {
 
         if (auth.isAuthenticated()) {
             $rootScope.isLoggedIn = true;
@@ -11,4 +11,25 @@ app.controller('MainCtrl',
         if (!auth.isAuthenticated()) {
             $location.path('/login');
         }
+
+        $(document).ready(function () {
+            $(window).scroll(function () {
+                if ($(this).scrollTop() > 50) {
+                    $('#back-to-top').fadeIn();
+                } else {
+                    $('#back-to-top').fadeOut();
+                }
+            });
+            // scroll body to 0px on click
+            $('#back-to-top').click(function () {
+                $('#back-to-top').tooltip('hide');
+                $('body,html').animate({
+                    scrollTop: 0
+                }, 800);
+                return false;
+            });
+
+            $('#back-to-top').tooltip('show');
+
+        });
     });
