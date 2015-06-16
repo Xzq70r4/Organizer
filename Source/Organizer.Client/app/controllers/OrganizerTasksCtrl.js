@@ -38,9 +38,7 @@ app.controller('OrganizerTasksCtrl',
     $scope.getClass = function(priority, releaseTime) {
         var now = $filter('date')(new Date(Date.now()), 'yyyy-MM-dd HH:mm:ss Z');
         var time = $filter('date')(releaseTime, 'yyyy-MM-dd HH:mm:ss Z');
-        //console.log(now ===time);
-        //console.log(time > now);
-        //console.log(time < now);
+
         if (priority === 0 && (time > now)) {
             return 'danger';
         }

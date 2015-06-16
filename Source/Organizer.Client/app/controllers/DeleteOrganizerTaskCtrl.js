@@ -1,4 +1,5 @@
-﻿
+﻿'use strict';
+
 app.controller('DeleteOrganizerTaskCtrl',
     function DeleteOrganizerTaskCtrl($scope, $window, $location, $modalInstance, $route, organizerData, auth, deleteTaskId, Notification) {
 

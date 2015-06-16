@@ -1,4 +1,5 @@
-﻿
+﻿'use strict';
+
 app.controller('CreateOrganizerTasksCtrl',
     function CreateOrganizerTasksCtrl($scope, $modalInstance, $route, $timeout,
         organizerData, dateTime, auth, Notification) {

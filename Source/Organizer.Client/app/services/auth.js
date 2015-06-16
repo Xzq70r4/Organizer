@@ -3,23 +3,21 @@
 app.factory('auth', function ($localStorage) {
     return {
         login: function (username, token) {
-            $localStorage.setItem('username', username);
-            $localStorage.setItem('access_token', token);
+            $localStorage.username = username;
+            $localStorage.access_token = token;
         },
         access_token: function () {
-            return $localStorage.getItem('access_token');
+            return $localStorage.access_token;
         },
         logout: function () {
-            $localStorage.removeItem('access_token');
-            $localStorage.removeItem('username');
-            $localStorage.removeItem('organizerTasks');
+            $localStorage.$reset();
         },
         isAuthenticated: function () {
-            return $localStorage.getItem('access_token') != undefined &&
-                $localStorage.getItem('username') != undefined;
+            return $localStorage.access_token != undefined &&
+                $localStorage.username != undefined;
         },
         getUsername: function () {
-            return $localStorage.getItem('username');
+            return $localStorage.username;
         }
     }
 });
