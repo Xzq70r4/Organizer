@@ -1,14 +1,14 @@
 ﻿'use strict';
 
 app.controller('OrganizerTasksCtrl',
-    function OrganizerTasksCtrl($scope, organizerData, auth, $filter, $modal, $localStorage) {
+    function OrganizerTasksCtrl ($scope, organizerData, auth, $filter, $modal, $localStorage) {
 
     $scope.showEditTaskForm = function (taskId) {
         $modal.open({
-            templateUrl: 'views/edit-task.html',
-            controller: 'EditOrganizerTasksCtrl',
-            resolve: {
-                editTaskId: function () {
+            templateUrl : 'views/edit-task.html',
+            controller : 'EditOrganizerTasksCtrl',
+            resolve : {
+                editTaskId : function () {
                     return taskId;
                 }
             }
@@ -16,11 +16,10 @@ app.controller('OrganizerTasksCtrl',
     };
 
     $scope.showDeleteTaskForm = function (taskId) {
-        console.log(taskId);
         $modal.open({
-            templateUrl: 'views/delete-task.html',
-            controller: 'DeleteOrganizerTaskCtrl',
-            resolve: {
+            templateUrl : 'views/delete-task.html',
+            controller : 'DeleteOrganizerTaskCtrl',
+            resolve : {
                 deleteTaskId: function () {
                     return taskId;
                 }
@@ -30,12 +29,12 @@ app.controller('OrganizerTasksCtrl',
 
     $scope.showCreateTaskForm = function () {
         $modal.open({
-            templateUrl: 'views/add-task.html',
-            controller: 'CreateOrganizerTasksCtrl'
+            templateUrl : 'views/add-task.html',
+            controller : 'CreateOrganizerTasksCtrl'
         });
     };
 
-    $scope.getClass = function(priority, releaseTime) {
+    $scope.getClass = function (priority, releaseTime) {
         var now = $filter('date')(new Date(Date.now()), 'yyyy-MM-dd HH:mm:ss Z');
         var time = $filter('date')(releaseTime, 'yyyy-MM-dd HH:mm:ss Z');
 
@@ -82,7 +81,7 @@ app.controller('OrganizerTasksCtrl',
 
     var pageSize = 3;
 
-    $scope.paginationLimit = function (data) {
+    $scope.paginationLimit = function () {
         return pageSize * pagesShown;
     };
 

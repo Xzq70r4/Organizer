@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 app.controller('CreateOrganizerTasksCtrl',
-    function CreateOrganizerTasksCtrl($scope, $modalInstance, $route, $timeout,
+    function CreateOrganizerTasksCtrl ($scope, $modalInstance, $route, $timeout,
         organizerData, dateTime, auth, Notification) {
         var timer;
         var updateTime = function () {
@@ -17,7 +17,7 @@ app.controller('CreateOrganizerTasksCtrl',
             if ((releaseTime <= $scope.dateTimeNow) ||
                 (releaseTime === null) ||
                 (releaseTime === undefined)) {
-                return  'has-warning';
+                return 'has-warning';
             };
         };
 
@@ -31,7 +31,7 @@ app.controller('CreateOrganizerTasksCtrl',
                 organizerData
                    .organizerTask
                    .postOraganizerTask(auth.access_token(), $scope.createOrganizerTask)
-                   .then(function (data) {
+                   .then(function () {
                        Notification.success('Successful created task!');
                        $route.reload();
                    }, function (error) {

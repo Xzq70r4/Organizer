@@ -1,12 +1,13 @@
 ﻿'use strict';
 
 app.controller('EditOrganizerTasksCtrl',
-    function EditOrganizerTasksCtrl($scope, $modalInstance, $route, $filter, $timeout,
+    function EditOrganizerTasksCtrl ($scope, $modalInstance, $route, $filter, $timeout,
         organizerData, auth, editTaskId, dateTime, Notification) {
         var timer;
         var updateTime = function () {
             $scope.dateTimeNow = Date.now();
             timer = $timeout(updateTime, $scope.dateTimeNow % 1000);
+
         };
         updateTime();
 
@@ -15,11 +16,9 @@ app.controller('EditOrganizerTasksCtrl',
             .getOraganizerTaskById(auth.access_token(), editTaskId)
             .then(function (data) {
                 $scope.editOrganizerTask = angular.copy(data);
-                $scope.editOrganizerTask.releaseTime = 
+                $scope.editOrganizerTask.releaseTime =
                     $filter('date')($scope.editOrganizerTask.releaseTime, 'yyyy-MM-dd HH:mm:ss Z');
             });
-
-        
 
         $scope.isError = function (releaseTime) {
             if ((releaseTime <= $scope.dateTimeNow) ||
@@ -49,7 +48,7 @@ app.controller('EditOrganizerTasksCtrl',
                 organizerData
                    .organizerTask
                    .putOraganizerTask(auth.access_token(), $scope.editOrganizerTask)
-                   .then(function (data) {
+                   .then(function () {
                        Notification.success('Successful edited task!');
                        $route.reload();
                    }, function (error) {

@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 app.controller('MainCtrl',
-    function MainCtrlr($scope, $rootScope, auth, $location) {
+    function MainCtrlr ($rootScope, auth, $location) {
 
         if (auth.isAuthenticated()) {
             $rootScope.isLoggedIn = true;
@@ -11,5 +11,4 @@ app.controller('MainCtrl',
         if (!auth.isAuthenticated()) {
             $location.path('/login');
         }
-    }
-);
+    });

@@ -2,12 +2,12 @@
 
 app.factory('dateTime', function () {
     return {
-        converToString: function (formDateTime) {
+        converToString: function(formDateTime) {
             var date = new Date(formDateTime);
-            var day = date.getDate();        // yields day
-            var month = date.getMonth() + 1;    // yields month
-            var year = date.getFullYear();  // yields year
-            var hour = date.getHours();     // yields hours 
+            var day = date.getDate(); // yields day
+            var month = date.getMonth() + 1; // yields month
+            var year = date.getFullYear(); // yields year
+            var hour = date.getHours(); // yields hours
             var minute = date.getMinutes(); // yields minutes
             var second = date.getSeconds(); // yields seconds
 
@@ -16,5 +16,5 @@ app.factory('dateTime', function () {
 
             return time;
         }
-    }
+    };
 });

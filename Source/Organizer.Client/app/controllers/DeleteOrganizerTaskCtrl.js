@@ -1,16 +1,14 @@
 ﻿'use strict';
 
 app.controller('DeleteOrganizerTaskCtrl',
-    function DeleteOrganizerTaskCtrl($scope, $window, $location, $modalInstance, $route, organizerData, auth, deleteTaskId, Notification) {
+    function DeleteOrganizerTaskCtrl ($scope, $modalInstance, $route, organizerData, auth, deleteTaskId, Notification) {
 
         $scope.yesDeleteForm = function () {
 
-            console.log('yes');
-            console.log(deleteTaskId);
             organizerData
                 .organizerTask
                 .deleteOraganizerTask(auth.access_token(), deleteTaskId)
-                .then(function (data) {
+                .then(function () {
                     Notification.success('Successful deleted task!');
                     $route.reload();
                 }, function (error) {
@@ -19,7 +17,6 @@ app.controller('DeleteOrganizerTaskCtrl',
 
             $modalInstance.dismiss();
         };
-
 
         $scope.noDeleteForm = function () {
 

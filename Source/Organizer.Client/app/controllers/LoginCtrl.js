@@ -1,12 +1,12 @@
 ﻿'use strict';
 
 app.controller('LoginCtrl',
-    function LoginCtrl($rootScope, $scope, $resource, $location, organizerData, auth, Notification) {
+    function LoginCtrl ($rootScope, $scope, $resource, $location, organizerData, auth, Notification) {
         if (auth.isAuthenticated()) {
             $location.path('/');
             return;
         }
-       
+
         $('#login-form-link').click(function (e) {
             $("#login-form").delay(100).fadeIn(100);
             $("#register-form").fadeOut(100);
