@@ -25,6 +25,7 @@ namespace Organizer.Data.Migrations
             {
                 return;
             }
+
             this.userManager = new UserManager<User>(new UserStore<User>(context));
 
             this.SeedUsers(context);

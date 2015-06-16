@@ -352,10 +352,6 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Organizer.Common\Organizer.Common.csproj">
-      <Project>{b086a65d-8d60-4293-a54a-0689f7ca9269}</Project>
-      <Name>Organizer.Common</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Organizer.Data\Organizer.Data.csproj">
       <Project>{9ea25112-eb8f-4906-8d69-569beea98538}</Project>
       <Name>Organizer.Data</Name>

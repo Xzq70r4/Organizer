@@ -3,7 +3,6 @@
     using System;
     using System.Linq;
     using System.Web.Http;
-    using System.Web.Http.Cors;
 
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
@@ -36,18 +35,18 @@
             var currentUserId = this.User.Identity.GetUserId();
             try
             {
-                var tasks = data.OrganizerTasks
+                var tasks = this.data.OrganizerTasks
                                 .All()
                                 .Where(t => t.UserId == currentUserId)
                                 .Project()
                                 .To<OrganizerTaskBindingModel>()
                                 .ToList();
 
-                return Ok(tasks);
+                return this.Ok(tasks);
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return this.InternalServerError(ex);
             }
         }
 
@@ -68,14 +67,14 @@
 
                 if (task == null)
                 {
-                    return NotFound();
+                    return this.NotFound();
                 }
 
                 return this.Ok(task);
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return this.InternalServerError(ex);
             }
         }
 
@@ -94,12 +93,12 @@
             {
                 if (model == null)
                 {
-                    return BadRequest("Task cannot be null");
+                    return this.BadRequest("Task cannot be null");
                 }
 
                 if (!ModelState.IsValid)
                 {
-                    return BadRequest(ModelState);
+                    return this.BadRequest(ModelState);
                 }
 
                 var dbTask = new OrganizerTask
@@ -115,14 +114,14 @@
                 this.data.SaveChanges();
                 if (dbTask == null)
                 {
-                    return Conflict();
+                    return this.Conflict();
                 }
 
                 return this.Ok();
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return this.InternalServerError(ex);
             }
         }
 
@@ -165,7 +164,7 @@
 
                     if (dbTask == null)
                     {
-                        return NotFound();
+                        return this.NotFound();
                     }
 
                     this.data.OrganizerTasks.Update(dbTask);
@@ -177,11 +176,11 @@
                     return this.BadRequest("This task is not your !");
                 }
 
-                return Ok();
+                return this.Ok();
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return this.InternalServerError(ex);
             }
         }
 

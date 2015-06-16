@@ -9,7 +9,7 @@
         private IOrganizerData data;
 
         public UsersController() 
-            :this(new OrganizerData())
+            : this(new OrganizerData())
         {
         }
 
