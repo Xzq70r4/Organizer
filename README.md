@@ -17,6 +17,8 @@ After register/login User can add task with location-name, release time of task,
 - [ng-storage](https://github.com/gsklee/ngStorage)
 - [jQuery](http://jquery.com/)
 
+
+Development Environment: Microsoft Visual Studio 2013
 ## Settings Before Start Project ##
 Before Start project you need set this settings. It is for simultaneous start Web API and Angular application. Web API start after Angular application.
 
