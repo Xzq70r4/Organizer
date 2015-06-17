@@ -3,7 +3,7 @@ Organizer is simple page application with AngularJs for clien side and ASP.Net W
 
 After register/login User can add task with location-name, release time of task,description for task and priority. He can edit or delete task. Tasks displayed like a timeline. If priority of task is urgent It is colored in red, if non-urgent colored in orange and if release time is in past, it colored in silver. Tasks can be sorted.
 
-##ASP NET MVC 5 application powered by:##
+##Organizer application powered by:##
 - [ASP.NET Web API 2]( http://www.asp.net/web-api/overview/getting-started-with-aspnet-web-api/tutorial-your-first-web-api) - Repository Pattern + Unit of work
 - [Microsoft SQL Server](http://www.microsoft.com/en-us/server-cloud/products/sql-server/)
 - [Entity Framework]( https://entityframework.codeplex.com) – ORM framework - Code First
