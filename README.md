@@ -1,5 +1,5 @@
 # Organizer
-Organizer is simple page application with AngularJs for client side and ASP.Net Web API 2 for server side.
+Organizer is single page application with AngularJs for client side and ASP.Net Web API 2 for server side.
 
 After register/login User can add task with location-name, release time of task, description for task and priority. He can edit or delete task. Tasks displayed like a timeline. If priority of task is urgent It is colored in red, if non-urgent colored in orange and if release time is in past, it colored in silver. Tasks can be sorted.
 
