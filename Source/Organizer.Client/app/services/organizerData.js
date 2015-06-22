@@ -29,8 +29,8 @@ app.factory('organizerData', function ($resource, $http, $q) {
         var deferred = $q.defer();
 
         $http.post(url + 'api/Account/Register', {
-            Username : username,
-            Password : password,
+            Username: username,
+            Password: password,
             ConfirmPassword: password
         },
             {
@@ -58,8 +58,8 @@ app.factory('organizerData', function ($resource, $http, $q) {
         var deferred = $q.defer();
 
         $http.post(url + 'Token', {
-            username : username,
-            password : password,
+            username: username,
+            password: password,
             grant_type: "password"
         },
             {
@@ -89,13 +89,13 @@ app.factory('organizerData', function ($resource, $http, $q) {
         $http.post(url + 'api/OrganizerTasks/Post',
             organizerTask,
             {
-                transformRequest : function (obj) {
+                transformRequest: function (obj) {
                     var str = [];
                     for (var p in obj)
                         str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
                     return str.join("&");
                 },
-                headers : {
+                headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                     'authorization': 'Bearer ' + access_token
                 }
@@ -115,13 +115,13 @@ app.factory('organizerData', function ($resource, $http, $q) {
 
         $http.get(url + 'api/OrganizerTasks/Get',
             {
-                transformRequest : function (obj) {
+                transformRequest: function (obj) {
                     var str = [];
                     for (var p in obj)
                         str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
                     return str.join("&");
                 },
-                headers : {
+                headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                     'authorization': 'Bearer ' + access_token
                 }
@@ -141,13 +141,13 @@ app.factory('organizerData', function ($resource, $http, $q) {
 
         $http.get(url + 'api/OrganizerTasks/Get/' + taskId,
             {
-                transformRequest : function (obj) {
+                transformRequest: function (obj) {
                     var str = [];
                     for (var p in obj)
                         str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
                     return str.join("&");
                 },
-                headers : {
+                headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                     'authorization': 'Bearer ' + access_token
                 }
@@ -168,13 +168,13 @@ app.factory('organizerData', function ($resource, $http, $q) {
         $http.put(url + 'api/OrganizerTasks/Put/' + organizerTask.id,
             organizerTask,
             {
-                transformRequest : function (obj) {
+                transformRequest: function (obj) {
                     var str = [];
                     for (var p in obj)
                         str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
                     return str.join("&");
                 },
-                headers : {
+                headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                     'authorization': 'Bearer ' + access_token
                 }
@@ -210,16 +210,16 @@ app.factory('organizerData', function ($resource, $http, $q) {
     }
 
     return {
-        account : {
-            register : register,
-            login : login
+        account: {
+            register: register,
+            login: login
         },
-        organizerTask : {
-            postOraganizerTask : postOraganizerTask,
-            getOrganizerTasks : getOraganizerTasks,
-            deleteOraganizerTask : deleteOraganizerTask,
-            getOraganizerTaskById : getOraganizerTaskById,
-            putOraganizerTask : putOraganizerTask
+        organizerTask: {
+            postOraganizerTask: postOraganizerTask,
+            getOrganizerTasks: getOraganizerTasks,
+            deleteOraganizerTask: deleteOraganizerTask,
+            getOraganizerTaskById: getOraganizerTaskById,
+            putOraganizerTask: putOraganizerTask
         }
     };
 });

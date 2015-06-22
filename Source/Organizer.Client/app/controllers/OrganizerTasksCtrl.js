@@ -5,9 +5,9 @@ app.controller('OrganizerTasksCtrl',
 
     $scope.showEditTaskForm = function (taskId) {
         $modal.open({
-            templateUrl : 'views/edit-task.html',
-            controller : 'EditOrganizerTasksCtrl',
-            resolve : {
+            templateUrl: 'views/edit-task.html',
+            controller: 'EditOrganizerTasksCtrl',
+            resolve: {
                 editTaskId : function () {
                     return taskId;
                 }
@@ -17,9 +17,9 @@ app.controller('OrganizerTasksCtrl',
 
     $scope.showDeleteTaskForm = function (taskId) {
         $modal.open({
-            templateUrl : 'views/delete-task.html',
-            controller : 'DeleteOrganizerTaskCtrl',
-            resolve : {
+            templateUrl: 'views/delete-task.html',
+            controller: 'DeleteOrganizerTaskCtrl',
+            resolve: {
                 deleteTaskId: function () {
                     return taskId;
                 }

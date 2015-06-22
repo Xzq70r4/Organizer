@@ -7,17 +7,17 @@ app.factory('auth', function ($localStorage) {
             $localStorage.access_token = token;
 
         },
-        access_token : function() {
+        access_token: function() {
             return $localStorage.access_token;
         },
-        logout : function () {
+        logout: function () {
             $localStorage.$reset();
         },
-        isAuthenticated : function () {
+        isAuthenticated: function () {
             return $localStorage.access_token !== undefined &&
                 $localStorage.username !== undefined;
         },
-        getUsername : function () {
+        getUsername: function () {
             return $localStorage.username;
         }
     };

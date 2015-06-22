@@ -1,14 +1,14 @@
 ﻿'use strict';
 
 var routeUserChecks = {
-    authenticated : {
+    authenticated: {
         authenticate : function (auth, $location) {
             var result = auth.isAuthenticated();
             if (!result) $location.path('/login');
             return result;
         }
     },
-    logout : {
+    logout: {
         logout : function (auth) {
             auth.logout();
             return true;
@@ -23,11 +23,11 @@ var app = angular.module('organizerApp', ['ngResource', 'ngRoute', 'ui.bootstrap
 
         $routeProvider
             .when('/', {
-                templateUrl : 'views/home.html',
+                templateUrl: 'views/home.html',
                 resolve: routeUserChecks.authenticated
             })
             .when('/login', {
-                templateUrl : 'views/login.html'
+                templateUrl: 'views/login.html'
             })
             .otherwise({ redirectTo: '/' });
     });
